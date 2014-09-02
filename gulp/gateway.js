@@ -43,16 +43,20 @@ function gatewayMiddleware(req, res, next) {
   }
 }
 
-function startServer(baseDirs, port) {
+function startServer(baseDirs, port, next) {
   var app = connect();
 
-  app.use(livereload({ port: 35729 }));
+  //app.use(livereload({port: 35779}));
+  //app.use(livereload());
+  console.log('_used');
 
   baseDirs.forEach(function (dir) {
     app.use(connect.static(dir));
   });
 
   app.use(gatewayMiddleware);
+
+  //app.use(livereload());
 
   var server = http.createServer(app);
 
@@ -62,7 +66,7 @@ function startServer(baseDirs, port) {
 
   var url = 'http://localhost:' + port;
 
-  server.listen(port)
+  server.listen(port, next)
     .on('listening', function () {
       console.log('Started connect web server on ' + url);
     });
@@ -70,8 +74,8 @@ function startServer(baseDirs, port) {
   opn(url);
 }
 
-gulp.task('connect', function () {
-  startServer(['app', '.tmp'], 9000);
+gulp.task('connect', function (next) {
+  startServer(['app', '.tmp'], 9000, next);
 });
 
 gulp.task('connect:dist', function () {

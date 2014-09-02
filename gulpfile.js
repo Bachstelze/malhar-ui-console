@@ -12,6 +12,7 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 require('./gulp/gateway');
+var livereload = require('gulp-livereload');
 
 var dev = {
   dir: 'app',
@@ -115,10 +116,14 @@ gulp.task('ngtemplates', function () {
 
 gulp.task('serve', ['connect', 'watch']);
 
+gulp.task('s', ['watch', 'connect']);
+
 gulp.task('serve:dist', ['connect:dist']);
 
-gulp.task('watch', [], function () {
-  var server = $.livereload();
+gulp.task('watch', ['connect'], function () {
+  //var server = $.livereload({port: 35779});
+  var server = livereload();
+  console.log('_server');
 
   gulp.watch([
     dev.index,
@@ -131,6 +136,7 @@ gulp.task('watch', [], function () {
   });
 
   gulp.watch(['app/styles/**/*.less'], ['less']);
+  gulp.watch(['app/components/**/*.less'], ['less']);
 });
 
 gulp.task('clean', function() {
@@ -172,4 +178,19 @@ gulp.task('travis', ['jshint', 'test']);
 
 gulp.task('default', [], function () {
   gulp.start('build');
+});
+
+
+
+gulp.task('server', function(next) {
+  var connect = require('connect'),
+    server = connect();
+  server.use(connect.static('app')).listen(9000, next);
+});
+
+gulp.task('w', ['server'], function() {
+  var server = livereload();
+  gulp.watch(dev.scripts).on('change', function(file) {
+    server.changed(file.path);
+  });
 });
