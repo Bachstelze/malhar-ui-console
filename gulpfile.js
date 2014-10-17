@@ -238,3 +238,9 @@ gulp.task('travis', ['jshint', 'test']);
 gulp.task('default', [], function () {
   gulp.start('build');
 });
+
+gulp.task('sloc', function(){
+  gulp.src(dev.scripts)
+  //gulp.src(dev.templates)
+    .pipe($.sloc());
+});

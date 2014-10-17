@@ -57,7 +57,8 @@
     "optimist": "^0.6.1",
     "time-grunt": "~0.2.1",
     "walk": "^2.3.3",
-    "wiredep": "^1.8.5"
+    "wiredep": "^1.8.5",
+    "gulp-sloc": "^1.0.4"
   },
   "optionalDependencies": {
     "karma-chrome-launcher": "^0.1.2",
