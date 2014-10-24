@@ -233,7 +233,10 @@
               tableName: 'employee',
               numberEntries: 10
             },
-            kafka: clientSettings.kafka.databaseDemoQuery.kafka
+            kafka: {
+              queryTopic: 'GoldenGateQueryODBPi',
+              resultTopic: 'GoldenGateQueryResultsODBPi'
+            }
           }
         },
         size: {
